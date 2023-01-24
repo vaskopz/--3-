@@ -1,32 +1,60 @@
-# Prerequisites
-*.d
+#include <iostream>
+using namespace std;
+class Deposit {
+public:
+	string clientName;
+	int balance;
+	double months;
+	double lihvenPr;
+	double lihva = months * lihvenPr;
+	Deposit(string clientName, int balance, double months, double lihvenPr, double lihva);
+	double getLihva();
+	double getLihvenPr();
+};
+double Deposit::getLihva() {
+	return lihva;
+}
+double Deposit::getLihvenPr() {
+	return lihvenPr;
+}
+Deposit::Deposit(string clientName, int balance, double months, double lihvenPr, double lihva) {
+	this->clientName = clientName;
+	this->balance =balance;
+	this->months =months;
+	this->lihva = lihva;
+	this->lihvenPr = lihvenPr;
+}
+class Credit:public Deposit {
+public:
+	int deposit;
+	Credit(int deposit, string clientName, int balance, double months, double lihvenPr, double lihva) :Deposit(clientName, balance, months,  lihvenPr, lihva) {
+		this->deposit = deposit;
+	}
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+};
+int main() {
+	Credit kredit(1000,"Ivan",2000,4,0.03,3);
+	Credit kredit1(1150,"Asen",1800,5,0.01,5);
+	Credit kredit2(1200,"Petar",1700,5,0.04,6);
+	Credit krediti[] = { kredit,kredit1,kredit2 };
+	for (int i = 0; i < sizeof(krediti); i++)
+	{
+		
+		for (int j = i; j < sizeof(krediti); j++)
+		{
+			if (krediti[i].getLihva() > krediti[j + 1].getLihva())
+			{
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+				krediti[i]=krediti[j];
+				cout << krediti[j].getLihvenPr();
+			}
+			
+			
+			
+		}
+	}
+	
+	return 0;
+	
+	
+}
